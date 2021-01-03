@@ -6,19 +6,19 @@
   "files": [],
   "references": [
     {
-      "path": "/Users/sabinmarcu/Projects/monorepo-tsconfig/packages/cli"
+      "path": "./cli"
     },
     {
-      "path": "/Users/sabinmarcu/Projects/monorepo-tsconfig/packages/config"
+      "path": "./config"
     },
     {
-      "path": "/Users/sabinmarcu/Projects/monorepo-tsconfig/packages/plugin-repo"
+      "path": "./plugin-repo"
     },
     {
-      "path": "/Users/sabinmarcu/Projects/monorepo-tsconfig/packages/utils"
+      "path": "./utils"
     },
     {
-      "path": "/Users/sabinmarcu/Projects/monorepo-tsconfig/packages/website"
+      "path": "./website"
     }
   ]
 }

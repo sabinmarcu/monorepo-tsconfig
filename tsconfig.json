@@ -6,8 +6,8 @@
   "files": [],
   "references": [
     {
-      "path": "/Users/sabinmarcu/Projects/monorepo-tsconfig/packages"
+      "path": "./packages"
     }
   ],
-  "extends": "/Users/sabinmarcu/Projects/monorepo-tsconfig/tsconfig.base.json"
+  "extends": "./tsconfig.base.json"
 }

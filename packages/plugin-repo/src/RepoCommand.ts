@@ -8,6 +8,20 @@ import { generateTsConfigs } from './tree';
 
 export const commandPath = ['generate', 'repo'];
 
+export const normalizePath = (
+  rootPath: string,
+  pathToResolve: string,
+) => {
+  const newPath = path.relative(
+    rootPath,
+    pathToResolve,
+  );
+  if (newPath[0] !== '.') {
+    return `./${newPath}`;
+  }
+  return newPath;
+};
+
 /**
  * Command used to generate all repo tsconfigs
  */
@@ -18,7 +32,7 @@ export class RepoTSCMonoCommand extends Command {
     const list = await generateTsConfigs();
     const config = await repoConfig.value;
     const rootExtra = {
-      extends: path.resolve(rootDir, config.baseConfig),
+      extends: normalizePath(rootDir, config.baseConfig),
     };
     list.forEach(
       ({ path: p, isRoot, content }) => {
@@ -27,7 +41,19 @@ export class RepoTSCMonoCommand extends Command {
           : content;
         fs.writeFileSync(
           p,
-          JSON.stringify(conf, undefined, 2),
+          JSON.stringify({
+            ...conf,
+            references: conf.references.map(
+              (
+                { path: ref }: { path: string },
+              ) => ({
+                path: normalizePath(
+                  path.dirname(p),
+                  ref,
+                ),
+              }),
+            ),
+          }, undefined, 2),
         );
       },
     );
