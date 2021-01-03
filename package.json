@@ -53,7 +53,7 @@
     "test": "jest",
     "lint": "eslint"
   },
-  "version": "0.2.13",
+  "version": "0.2.14",
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",

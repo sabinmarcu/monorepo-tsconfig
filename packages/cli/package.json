@@ -1,6 +1,6 @@
 {
   "main": "dist/index.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "bin": {
     "tscmono": "bin/tscmono.sh"
   },
@@ -21,7 +21,7 @@
   },
   "name": "@tscmono/cli",
   "dependencies": {
-    "@tscmono/utils": "0.1.13",
+    "@tscmono/utils": "0.1.14",
     "clipanion": "^2.6.2"
   }
 }

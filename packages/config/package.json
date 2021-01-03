@@ -15,7 +15,7 @@
     "config"
   ],
   "dependencies": {
-    "@tscmono/utils": "0.1.13",
+    "@tscmono/utils": "0.1.14",
     "cosmiconfig": "^7.0.0",
     "json-schema-to-typescript": "^10.0.3",
     "jsonschema": "^1.4.0"
