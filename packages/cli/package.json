@@ -23,5 +23,11 @@
   "dependencies": {
     "@tscmono/utils": "0.1.14",
     "clipanion": "^2.6.2"
+  },
+  "scripts": {
+    "build:dev": "echo 'SKIP'"
+  },
+  "tscmono": {
+    "preset": "default"
   }
 }

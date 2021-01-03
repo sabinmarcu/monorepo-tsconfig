@@ -20,6 +20,7 @@
     "build-packages": "yarn workspaces foreach --exclude @tscmono/website -vpitA run build",
     "build": "tsc -b",
     "build:dev": "tsc -b --watch",
+    "dev": "yarn workspaces foreach --exclude @tscmono/website -vpiA run build:dev",
     "publish-packages": "run-s \"publish:*\"",
     "publish:apply": "yarn version apply --all",
     "publish:run": "yarn workspaces foreach --exclude @tscmono/root --exclude @tscmono/website -vpitA npm publish --tolerate-republish",

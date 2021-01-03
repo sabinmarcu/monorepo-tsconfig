@@ -2983,6 +2983,10 @@ __metadata:
     cosmiconfig: ^7.0.0
     json-schema-to-typescript: ^10.0.3
     jsonschema: ^1.4.0
+    nanoid: ^3.1.20
+    nodemon: ^2.0.6
+    npm-run-all: ^4.1.5
+    ts-node: ^9.1.1
   languageName: unknown
   linkType: soft
 
@@ -3004,6 +3008,19 @@ __metadata:
   dependencies:
     "@tscmono/config": 0.1.10
     "@tscmono/utils": 0.1.14
+    "@types/node": ^14.14.16
+    clipanion: ^2.6.2
+    cosmiconfig: ^7.0.0
+    ts-deepmerge: ^1.0.6
+  languageName: unknown
+  linkType: soft
+
+"@tscmono/plugin-workspace@workspace:packages/plugin-workspace":
+  version: 0.0.0-use.local
+  resolution: "@tscmono/plugin-workspace@workspace:packages/plugin-workspace"
+  dependencies:
+    "@tscmono/config": 0.1.10
+    "@tscmono/utils": 0.1.13
     "@types/node": ^14.14.16
     clipanion: ^2.6.2
     cosmiconfig: ^7.0.0
@@ -15700,6 +15717,15 @@ fsevents@~2.1.2:
   dependencies:
     node-gyp: latest
   checksum: 36349b2e5df4182aa0d0cc43fcd6cc782ca560a83c2764743d80c14ba5028d0c54041a2f464b8d4cb18a884e04415034a0a764c745e1d5502ea34a5cb6470a39
+  languageName: node
+  linkType: hard
+
+"nanoid@npm:^3.1.20":
+  version: 3.1.20
+  resolution: "nanoid@npm:3.1.20"
+  bin:
+    nanoid: bin/nanoid.cjs
+  checksum: 4788d36edcfec7bb32ddf33ed8f1f46df2867f70e9b1993bb131f7677e04ead2b621e5d614d2736308be18db1d54208d8ab207b4586bd5b052f71fb9d4c0ebea
   languageName: node
   linkType: hard
 

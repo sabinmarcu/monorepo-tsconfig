@@ -1,0 +1,34 @@
+{
+  "title": "Workspace Root Config",
+  "definitions": {
+    "required": {
+      "properties": {
+        "baseConfig": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "baseConfig"
+      ]
+    },
+    "optional": {
+      "type": "object",
+      "properties": {
+        "overrides": {
+          "$ref": "./tsconfig.json",
+          "additionalProperties": false
+        },
+        "presets": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "./tsconfig.json"
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    { "$ref": "#/definitions/required" },
+    { "$ref": "#/definitions/optional" }
+  ]
+}

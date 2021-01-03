@@ -1,6 +1,6 @@
 import { loadConfig, JSONSchema } from '@tscmono/config';
-import repoSchema from '@tscmono/config/schemas/repo.json';
-import type { RepoConfig } from '@tscmono/config/types/repo';
+import repoSchema from '@tscmono/config/schemas/root.json';
+import type { WorkspaceRootConfig } from '@tscmono/config/types/root';
 import { registerCache } from '@tscmono/utils';
 
 /**
@@ -10,7 +10,7 @@ import { registerCache } from '@tscmono/utils';
  */
 const getRepoConfig = (
   rootDir: string = process.cwd(),
-) => loadConfig<RepoConfig>(
+) => loadConfig<WorkspaceRootConfig>(
   repoSchema as JSONSchema,
   'tscmono',
   rootDir,

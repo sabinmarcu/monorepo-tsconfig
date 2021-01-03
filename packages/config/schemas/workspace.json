@@ -1,0 +1,59 @@
+{
+  "title": "Workspace Config",
+  "definitions": {
+    "preset": {
+      "properties": {
+        "preset": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "preset"
+      ]
+    },
+    "presets": {
+      "properties": {
+        "presets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "presets"
+      ]
+    },
+    "extends": {
+      "properties": {
+        "extends": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "extends"
+      ]
+    },
+    "overrides": {
+      "properties": {
+        "overrides": {
+          "$ref": "./tsconfig.json"
+        }
+      }
+    }
+  },
+  "allOf": [
+    { "$ref": "#/definitions/overrides" },
+    {
+      "anyOf": [
+        { 
+          "oneOf": [
+            { "$ref": "#/definitions/preset" },
+            { "$ref": "#/definitions/presets" }
+          ]
+        },
+        { "$ref": "#/definitions/extends" }
+      ]
+    }
+  ]
+}
