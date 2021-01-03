@@ -1,18 +1,24 @@
 {
   "compilerOptions": {
-    "composite": true,
+    "composite": true
   },
   "include": [],
   "files": [],
   "references": [
     {
-      "path": "./utils"
+      "path": "/Users/sabinmarcu/Projects/monorepo-tsconfig/packages/cli"
     },
     {
-      "path": "./config"
+      "path": "/Users/sabinmarcu/Projects/monorepo-tsconfig/packages/config"
     },
     {
-      "path": "./repo"
+      "path": "/Users/sabinmarcu/Projects/monorepo-tsconfig/packages/plugin-repo"
+    },
+    {
+      "path": "/Users/sabinmarcu/Projects/monorepo-tsconfig/packages/utils"
+    },
+    {
+      "path": "/Users/sabinmarcu/Projects/monorepo-tsconfig/packages/website"
     }
   ]
 }

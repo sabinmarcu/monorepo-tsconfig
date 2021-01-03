@@ -58,7 +58,7 @@ type TSConfigTemplate = {
   /**
    * The content to be written
    */
-  content: any,
+  content: any & { references: {path: string}[] },
   /**
    * Used to decide if the `baseConfig` should be added as `extends`
    */
@@ -88,7 +88,7 @@ export const treeNodeToTSConfig = (
         (node) => (typeof node === 'string'
           ? path.resolve(projectPath, node)
           : path.resolve(projectPath, node.path)),
-      ),
+      ).map((it) => ({ path: it })),
     },
   ),
 });

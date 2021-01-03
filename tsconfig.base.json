@@ -2,7 +2,7 @@
   "compilerOptions": {
     "incremental": true,                   
     "target": "es2015",                          
-    "module": "commonjs",                     
+    "module": "commonjs",          
     "lib": ["ES5", "ES2015", "DOM", "ES2019"],                             
     "allowJs": false,                       
     "checkJs": false,                       

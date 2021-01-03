@@ -20,8 +20,8 @@ const debug = makeLogger(__filename);
 export const fixV2Path = (
   pwd: string,
   p: string,
-) => require(
-  path.resolve(pwd, p, 'package.json'),
+) => getPackageJson(
+  path.resolve(pwd, p),
 ).name;
 
 /**

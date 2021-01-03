@@ -12,8 +12,8 @@ const getRepoConfig = (
   rootDir: string = process.cwd(),
 ) => loadConfig<RepoConfig>(
   repoSchema as JSONSchema,
-  rootDir,
   'tscmono',
+  rootDir,
 );
 
 /**

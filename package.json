@@ -92,5 +92,9 @@
     "typedoc": "^0.17",
     "typedoc-plugin-jekyll": "^0.1.0",
     "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "@tscmono/cli": "workspace:packages/cli",
+    "@tscmono/plugin-repo": "workspace:packages/plugin-repo"
   }
 }

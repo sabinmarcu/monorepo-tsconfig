@@ -1,0 +1,27 @@
+{
+  "main": "dist/index.js",
+  "version": "0.1.0",
+  "bin": {
+    "tscmono": "bin/tscmono.sh"
+  },
+  "keywords": [
+    "typescript",
+    "monorepo",
+    "yarn workspaces",
+    "tscmono",
+    "cli",
+    "command"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": {
+    "email": "sabinmarcu@gmail.com",
+    "name": "Sabin Marcu"
+  },
+  "name": "@tscmono/cli",
+  "dependencies": {
+    "@tscmono/utils": "0.1.13",
+    "clipanion": "^2.6.2"
+  }
+}

@@ -6,8 +6,14 @@ import path from 'path';
  * @param pwd The path
  * @category Util
  */
-export const getPackageJson = (pwd: string) => require(
-  path.resolve(pwd, 'package.json'),
+export const getPackageJson = (pwd: string) => JSON.parse(
+  fs.readFileSync(
+    path.resolve(
+      pwd.replace(/\/package\.json$/, ''),
+      'package.json',
+    ),
+    'utf-8',
+  ),
 );
 
 /**

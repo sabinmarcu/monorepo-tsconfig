@@ -41,5 +41,11 @@ module.exports = {
       extends: ['eslint-config-airbnb-typescript'],
       rules,
     },
+    {
+      files: ['*Command.ts'],
+      rules: {
+        'class-methods-use-this': 0,
+      },
+    },
   ],
 };
