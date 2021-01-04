@@ -29,8 +29,5 @@
   },
   "scripts": {
     "build:dev": "echo 'SKIP'"
-  },
-  "tscmono": {
-    "preset": "default"
   }
 }

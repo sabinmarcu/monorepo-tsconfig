@@ -12,10 +12,10 @@
       "path": "./config"
     },
     {
-      "path": "./plugin-workspace"
+      "path": "./plugin-repo"
     },
     {
-      "path": "./plugin-repo"
+      "path": "./plugin-workspace"
     },
     {
       "path": "./utils"

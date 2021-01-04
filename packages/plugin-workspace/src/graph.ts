@@ -1,51 +1,24 @@
 import path from 'path';
 import {
   makeLogger,
-  parseWorkspaces,
-  pathsToTree,
-  registerCache,
   root,
-  TreeNode,
+  workspaces,
 } from '@tscmono/utils';
+import {
+  repoConfig,
+} from '@tscmono/plugin-repo';
 import merge from 'ts-deepmerge';
 
 // @ts-ignore
+import { WorkspaceRootConfig } from '@tscmono/config/types/root';
+import { WorkspaceConfig } from '@tscmono/utils/src/types/WorkspaceConfig';
 import template from './template.json';
+import { getConfig } from './config';
 
 /**
  * @ignore
  */
 const debug = makeLogger(__filename);
-
-/**
- * Create a project tree based on workspaces
- * @param rootDir The root directory used in creating the project tree
- */
-export const getTree = async (
-  rootDir: string = process.cwd(),
-) => {
-  debug(`Starting tree parsing at ${rootDir}`);
-  const projectRoot = await root.value;
-  debug(`Found project root at ${projectRoot}`);
-  const workspaces = await parseWorkspaces(projectRoot);
-  const paths = Object.values(workspaces)
-    .map(({ location }) => location);
-  debug('Obtained paths', paths);
-  const tree = pathsToTree(paths);
-  return {
-    projectRoot,
-    tree,
-  };
-};
-
-/**
- * Cached version of the [[getTree | Workspace Tree Generator]] function
- * @category Cache
- */
-export const workspaceTree = registerCache(
-  'workspaceTree',
-  getTree,
-);
 
 /**
  * Describe what should be written to the filesystem for a tsconfig
@@ -59,67 +32,78 @@ type TSConfigTemplate = {
    * The content to be written
    */
   content: any & { references: {path: string}[] },
-  /**
-   * Used to decide if the `baseConfig` should be added as `extends`
-   */
-  isRoot: boolean,
 };
 
-/**
- * Convert a single [[TreeNode]] instance to a [[TSConfigTemplate]], given the
- * project path, and a template to be used. It will only generate the template for
- * the current node, and not traverse its children
- * @param projectPath The project path
- * @param tree The tree to be converted
- * @param tpl The template to be used
- * @category TSConfig Generation
- */
-export const treeNodeToTSConfig = (
-  projectPath: string,
-  tree: TreeNode,
-  tpl: any,
-): TSConfigTemplate => ({
-  path: path.resolve(projectPath, tree.path, 'tsconfig.json'),
-  isRoot: tree.path === '',
-  content: merge(
-    tpl,
-    {
-      references: Object.values(tree.children).map(
-        (node) => (typeof node === 'string'
-          ? path.resolve(projectPath, node)
-          : path.resolve(projectPath, node.path)),
-      ).map((it) => ({ path: it })),
-    },
-  ),
-});
+export const normalizePath = (
+  rootPath: string,
+  pkgRootPath: string,
+  pathToResolve: string,
+) => {
+  const basePath = path.resolve(rootPath, pathToResolve);
+  const newPath = path.relative(
+    pkgRootPath,
+    basePath,
+  );
+  if (newPath[0] !== '.') {
+    return `./${newPath}`;
+  }
+  return newPath;
+};
 
-/**
- * Reduce an entire [[TreeNode]] to an array of [[TSConfigTemplate]]s, using
- * the [[treeNodeToTSConfig]] function to convert a single node to template,
- * traversing the [[TreeNode.children]] to generate the [[TSConfigTemplate]] array
- * @param projectPath
- * @param tree
- * @param tpl
- * @category TSConfig Generation
- */
-export const reduceTreeNodeToTSConfigList = (
-  projectPath: string,
-  tree: TreeNode,
+export const packageToTsConfig = async (
+  pkg: WorkspaceConfig,
+  rootConfig: WorkspaceRootConfig,
+  rootDir: string,
   tpl: any,
-): TSConfigTemplate[] | undefined => {
-  const currentTemplate = treeNodeToTSConfig(projectPath, tree, tpl);
-  const childTemplates = Object.values(tree.children).map(
-    (child) => {
-      if (typeof child === 'string') {
-        return undefined;
-      }
-      return reduceTreeNodeToTSConfigList(projectPath, child, tpl);
-    },
-  ).flat().filter(Boolean) as TSConfigTemplate[];
-  return [
-    currentTemplate,
-    ...childTemplates,
-  ];
+  pkgList: Record<string, WorkspaceConfig>,
+): Promise<TSConfigTemplate> => {
+  const pkgPath = path.resolve(
+    rootDir,
+    pkg.location,
+  );
+  const rootExtra = {
+    extends: normalizePath(
+      rootDir,
+      pkgPath,
+      rootConfig.baseConfig,
+    ),
+  };
+  const tsConfigPath = path.resolve(
+    pkgPath,
+    'tsconfig.json',
+  );
+  const conf = await getConfig(pkgPath);
+  let extendedConf: any;
+  if (conf.preset) {
+    extendedConf = rootConfig.presets?.[conf.preset as string] ?? undefined;
+  } else if (conf.presets) {
+    extendedConf = (conf.presets as string[]).reduce(
+      (prev: any, it: string) => merge(
+        prev,
+        rootConfig.presets?.[it] ?? undefined,
+      ),
+      {},
+    );
+  } else if (conf.extends) {
+    extendedConf = {
+      extends: conf.extends as string,
+    };
+  }
+  const references = pkg.workspaceDependencies
+    .map((it) => path.resolve(rootDir, pkgList[it].location))
+    .map((location) => ({
+      path: path.relative(pkgPath, location),
+    }));
+  return {
+    path: tsConfigPath,
+    content: merge(
+      rootExtra,
+      tpl,
+      conf.overrides || {},
+      extendedConf,
+      { references },
+    ),
+  };
 };
 
 /**
@@ -131,14 +115,24 @@ export const generateTsConfigs = async (
   rootDir: string = process.cwd(),
 ) => {
   debug('Starting tsconfigs generation');
-  const tree = rootDir
-    ? await workspaceTree.refresh(rootDir)
-    : await workspaceTree.value;
-  debug('Generated workspace tree');
-  const tsConfigs = reduceTreeNodeToTSConfigList(
-    tree.projectRoot,
-    tree.tree,
-    template,
-  ) as TSConfigTemplate[];
-  return tsConfigs;
+  const workspaceRoot = rootDir
+    ? await root.refresh(rootDir)
+    : await root.value;
+  const packages = rootDir
+    ? await workspaces.refresh(rootDir)
+    : await workspaces.value;
+  const rootConfig: WorkspaceRootConfig = rootDir
+    ? await repoConfig.refresh(rootDir)
+    : await repoConfig.value;
+  return Promise.all(
+    Object.values(packages).map(
+      (pkg) => packageToTsConfig(
+        pkg,
+        rootConfig,
+        workspaceRoot,
+        template,
+        packages,
+      ),
+    ),
+  );
 };

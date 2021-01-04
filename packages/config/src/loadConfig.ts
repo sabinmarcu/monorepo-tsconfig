@@ -6,6 +6,7 @@ import { JSONSchema } from 'json-schema-to-typescript';
 import { makeLogger, root } from '@tscmono/utils';
 import { Validator } from 'jsonschema';
 import { nanoid } from 'nanoid';
+import { deepCopy } from 'deep-copy-ts';
 
 /**
  * @ignore
@@ -62,31 +63,26 @@ export const loadConfig = async <T>(
   name: string,
   rootDir?: string,
 ): Promise<T> => {
+  const schemaCopy = deepCopy(schema);
   const repoRoot = rootDir || await root.value;
   debug(`Loading config for "${name}" from "${repoRoot}"`);
-  const explorer = cosmiconfig(name);
+  const explorer = cosmiconfig(name, { stopDir: repoRoot });
   const output = await explorer.search(repoRoot);
   if (!output || output.isEmpty) {
     throw new Error(`Configuration for ${name} cannot be found!`); // TODO: Make this better
   }
   debug('Config found');
   const validator = new Validator();
-  const subSchemas = getSubSchemas(schema, repoRoot)
-    .filter(
-      (it, idx, arr) => arr.findIndex(
-        ({ path: p }) => p === it.path,
-      ) === idx,
-    );
+  const subSchemas = getSubSchemas(schemaCopy, repoRoot);
   subSchemas.forEach(
-    ({ path: p, schema: s }) => validator.addSchema({
-      ...s,
-      id: p,
-    }, p),
+    ({ path: p, schema: s }) => validator.addSchema(s, p),
   );
-  const validateResult = validator.validate(output.config, schema);
+  const validateResult = validator.validate(output.config, schemaCopy);
   const isValid = validateResult.valid;
   if (!isValid) {
-    throw new Error(`Configuration for ${name} is invalid! (at: "${output.filepath}")
+    throw new Error(`Configuration for ${name} is invalid! 
+    (at: "${output.filepath}")
+    (against: "${schemaCopy.title}")
     
 ${validateResult.errors.map(
     ({ property, message }) => `    ${property}: ${message}`,

@@ -1,3 +1,4 @@
 !.eslintrc.js
 dist
 *.spec.*
+**/types/*.d.ts

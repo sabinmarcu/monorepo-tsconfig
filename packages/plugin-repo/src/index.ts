@@ -1,6 +1,7 @@
 import { commandPath, RepoTSCMonoCommand } from './RepoCommand';
 
 export * from './config';
+export * from './tree';
 
 export const commands = [
   RepoTSCMonoCommand,

@@ -1,20 +1,26 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "composite": true,
     "rootDir": "src",
     "outDir": "dist",
     "incremental": true,
-    "composite": true,
-    "tsBuildInfoFile": "dist/.tsbuildinfo",
-    "esModuleInterop": true
+    "tsBuildInfoFile": "dist/.tsbuildinfo"
   },
   "include": [
-    "src/**/*",
+    "src",
     "src/**/*.json"
+  ],
+  "exclude": [
+    "src/**.spec.ts",
+    "src/**.spec.tsx"
   ],
   "references": [
     {
       "path": "../config"
+    },
+    {
+      "path": "../plugin-repo"
     },
     {
       "path": "../utils"
