@@ -2967,18 +2967,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tscmono/cli@workspace:packages/cli"
   dependencies:
-    "@tscmono/utils": 0.1.14
+    "@tscmono/utils": 0.1.15
     clipanion: ^2.6.2
   bin:
     tscmono: bin/tscmono.sh
   languageName: unknown
   linkType: soft
 
-"@tscmono/config@0.1.10, @tscmono/config@workspace:packages/config":
+"@tscmono/config@0.1.11, @tscmono/config@workspace:packages/config":
   version: 0.0.0-use.local
   resolution: "@tscmono/config@workspace:packages/config"
   dependencies:
-    "@tscmono/utils": 0.1.14
+    "@tscmono/utils": 0.1.15
     "@types/node": ^14.14.16
     cosmiconfig: ^7.0.0
     deep-copy-ts: ^0.5.0
@@ -3003,12 +3003,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tscmono/plugin-repo@0.1.11, @tscmono/plugin-repo@workspace:packages/plugin-repo":
+"@tscmono/plugin-repo@0.1.12, @tscmono/plugin-repo@workspace:packages/plugin-repo":
   version: 0.0.0-use.local
   resolution: "@tscmono/plugin-repo@workspace:packages/plugin-repo"
   dependencies:
-    "@tscmono/config": 0.1.10
-    "@tscmono/utils": 0.1.14
+    "@tscmono/config": 0.1.11
+    "@tscmono/utils": 0.1.15
     "@types/node": ^14.14.16
     clipanion: ^2.6.2
     cosmiconfig: ^7.0.0
@@ -3020,9 +3020,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tscmono/plugin-workspace@workspace:packages/plugin-workspace"
   dependencies:
-    "@tscmono/config": 0.1.10
-    "@tscmono/plugin-repo": 0.1.11
-    "@tscmono/utils": 0.1.14
+    "@tscmono/config": 0.1.11
+    "@tscmono/plugin-repo": 0.1.12
+    "@tscmono/utils": 0.1.15
     "@types/node": ^14.14.16
     clipanion: ^2.6.2
     cosmiconfig: ^7.0.0
@@ -3077,7 +3077,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tscmono/utils@0.1.14, @tscmono/utils@workspace:packages/utils":
+"@tscmono/utils@0.1.15, @tscmono/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@tscmono/utils@workspace:packages/utils"
   dependencies:
