@@ -3003,7 +3003,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tscmono/plugin-repo@0.1.10, @tscmono/plugin-repo@workspace:packages/plugin-repo":
+"@tscmono/plugin-repo@0.1.11, @tscmono/plugin-repo@workspace:packages/plugin-repo":
   version: 0.0.0-use.local
   resolution: "@tscmono/plugin-repo@workspace:packages/plugin-repo"
   dependencies:
@@ -3021,8 +3021,8 @@ __metadata:
   resolution: "@tscmono/plugin-workspace@workspace:packages/plugin-workspace"
   dependencies:
     "@tscmono/config": 0.1.10
-    "@tscmono/plugin-repo": 0.1.10
-    "@tscmono/utils": 0.1.13
+    "@tscmono/plugin-repo": 0.1.11
+    "@tscmono/utils": 0.1.14
     "@types/node": ^14.14.16
     clipanion: ^2.6.2
     cosmiconfig: ^7.0.0
